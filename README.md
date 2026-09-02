@@ -61,7 +61,27 @@ O arquivo `.env` contém a configuração individual do ambiente e não deve ser
 
 ## Estado atual
 
-Esta etapa entrega a fundação técnica do laboratório: Laravel 13, SQLite, página inicial própria, rota de saúde em `/up`, scripts de apoio e testes automatizados básicos. As funcionalidades de login, dashboard, projetos, equipe e tarefas serão adicionadas em etapas didáticas.
+Além da fundação técnica, esta etapa entrega a primeira API didática do laboratório. Ela permite consultar, filtrar, cadastrar, atualizar e excluir produtos fictícios, sempre no banco SQLite local.
+
+### API de produtos
+
+O endereço-base é `http://127.0.0.1:8000/api/v1`.
+
+| Método | Rota | Finalidade |
+| --- | --- | --- |
+| `GET` | `/products` | Lista os produtos. Aceita `category` e `active` como filtros. |
+| `GET` | `/products/{id}` | Consulta um produto. |
+| `POST` | `/products` | Cadastra um produto. |
+| `PATCH` | `/products/{id}` | Atualiza somente os campos enviados. |
+| `DELETE` | `/products/{id}` | Exclui um produto. |
+
+Exemplo de consulta no navegador ou no Postman:
+
+```text
+http://127.0.0.1:8000/api/v1/products?active=1
+```
+
+A API é pública apenas porque foi criada para o laboratório local. Ela não deve ser publicada na internet nesse estado. Login, dashboard, projetos, equipe e tarefas serão adicionados em etapas posteriores.
 
 ## Testes do projeto
 

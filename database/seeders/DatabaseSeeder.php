@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(ProductSeeder::class);
+
         if (User::query()->where('email', 'test@example.com')->doesntExist()) {
             User::factory()->create([
                 'name' => 'Test User',
