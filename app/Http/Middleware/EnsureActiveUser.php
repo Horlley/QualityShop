@@ -11,6 +11,7 @@ class EnsureActiveUser
 {
     public function handle(Request $request, Closure $next): Response
     {
+        abort_if($request->user()?->role === 'auditor' && ! $request->isMethodSafe() && ! $request->routeIs('logout'), 403);
         if ($request->user() && ! $request->user()->active) {
             Auth::logout();
             $request->session()->invalidate();

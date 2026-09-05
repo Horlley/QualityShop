@@ -15,7 +15,7 @@ class OrderController extends Controller
     {
         $orders = Order::query()
             ->with(['user', 'items'])
-            ->when(! $request->user()->isStaff(), fn ($query) => $query->whereBelongsTo($request->user()))
+            ->when(! $request->user()->canViewAllOrders(), fn ($query) => $query->whereBelongsTo($request->user()))
             ->latest('id')
             ->get();
 
@@ -27,7 +27,7 @@ class OrderController extends Controller
      */
     public function show(Request $request, Order $order): View
     {
-        if (! $request->user()->isStaff() && $order->user_id !== $request->user()->id) {
+        if (! $request->user()->canViewAllOrders() && $order->user_id !== $request->user()->id) {
             abort(404);
         }
 

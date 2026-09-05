@@ -7,7 +7,7 @@
         <div>
             <div class="eyebrow">Laboratório oficial do livro QA Moderno</div>
             <h1 id="page-title">Aprenda QA em um produto que você pode <span>investigar.</span></h1>
-            <p class="hero-copy">Um comércio eletrônico completo, local e seguro para praticar requisitos, testes, APIs, banco de dados, automação, segurança e comunicação profissional.</p>
+            <p class="hero-copy">Uma loja simulada, local e controlada para praticar requisitos, testes, APIs, banco de dados, automação, segurança e comunicação profissional.</p>
             <div class="button-row">
                 <a class="button" href="{{ route('catalog.index') }}">Explorar o catálogo</a>
                 @guest

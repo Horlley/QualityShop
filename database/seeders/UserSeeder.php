@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users = [
+            ['name' => 'André Auditor', 'email' => 'auditor@qualityshop.local', 'role' => 'auditor', 'active' => true],
             ['name' => 'Diego Cliente', 'email' => 'cliente2@qualityshop.local', 'role' => 'customer', 'active' => true],
             ['name' => 'Carla Cliente', 'email' => 'cliente@qualityshop.local', 'role' => 'customer', 'active' => true],
             ['name' => 'Otávio Operador', 'email' => 'operador@qualityshop.local', 'role' => 'operator', 'active' => true],

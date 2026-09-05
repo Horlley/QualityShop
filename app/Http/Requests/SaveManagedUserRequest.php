@@ -17,7 +17,7 @@ class SaveManagedUserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:200', Rule::unique('users')->ignore($this->route('user'))],
-            'role' => ['required', Rule::in($this->user()->role === 'admin' ? ['customer', 'operator', 'manager', 'admin'] : ['customer'])],
+            'role' => ['required', Rule::in($this->user()->role === 'admin' ? ['customer', 'operator', 'manager', 'admin', 'auditor'] : ['customer'])],
             'active' => ['required', 'boolean'],
             'password' => [$this->isMethod('post') ? 'required' : 'nullable', 'string', 'min:8', 'max:100', 'confirmed'],
         ];

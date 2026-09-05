@@ -47,7 +47,7 @@ class StorefrontController extends Controller
         $user = $request->user();
         $ordersQuery = Order::query()->with('user')->latest('id');
 
-        if (! $user->isStaff()) {
+        if (! $user->canViewAllOrders()) {
             $ordersQuery->whereBelongsTo($user);
         }
 

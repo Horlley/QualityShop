@@ -45,10 +45,16 @@ class User extends Authenticatable
     public function roleLabel(): string
     {
         return match ($this->role) {
+            'auditor' => 'Auditoria',
             'operator' => 'Operador',
             'manager' => 'Gerente',
             'admin' => 'Administrador',
             default => 'Cliente',
         };
+    }
+
+    public function canViewAllOrders(): bool
+    {
+        return $this->isStaff() || $this->role === 'auditor';
     }
 }

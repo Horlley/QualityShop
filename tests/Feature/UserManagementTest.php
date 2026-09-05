@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -72,5 +73,17 @@ class UserManagementTest extends TestCase
     public function test_remote_requests_cannot_use_public_didactic_api(): void
     {
         $this->withServerVariables(['REMOTE_ADDR' => '192.0.2.10'])->getJson('/api/v1/products')->assertForbidden();
+    }
+
+    public function test_auditor_reads_orders_but_cannot_mutate_them_or_create_cart(): void
+    {
+        $order = Order::factory()->create();
+        $auditor = User::factory()->create(['role' => 'auditor']);
+
+        $this->actingAs($auditor)->get(route('orders.show', $order))->assertSeeText($order->number)->assertDontSeeText('Cancelar pedido');
+        $this->post(route('orders.cancellation.store', $order))->assertForbidden();
+        $this->post(route('cart.items.store'), ['product_id' => 1, 'quantity' => 1])->assertForbidden();
+
+        $this->assertSame('paid', $order->refresh()->status);
     }
 }

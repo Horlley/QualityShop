@@ -12,6 +12,7 @@
                 @foreach([
                     ['Cliente','cliente@qualityshop.local','Compra e acompanha os próprios pedidos'],
                     ['Cliente 2','cliente2@qualityshop.local','Permite testar isolamento entre clientes'],
+                    ['Auditoria','auditor@qualityshop.local','Consulta pedidos e histórico sem alterá-los'],
                     ['Operador','operador@qualityshop.local','Acompanha pedidos dos clientes'],
                     ['Gerente','gerente@qualityshop.local','Visualiza indicadores da operação'],
                     ['Administrador','admin@qualityshop.local','Gerencia produtos, estoque e contas'],

@@ -12,6 +12,8 @@ class OrderLifecycle
 {
     public function transition(Order $order, User $actor, string $action, bool $refundFailure = false): Order
     {
+        abort_if($actor->role === 'auditor', 403);
+
         return DB::transaction(function () use ($order, $actor, $action, $refundFailure): Order {
             $current = Order::query()->with('items')->lockForUpdate()->findOrFail($order->id);
             abort_unless($actor->isStaff() || $current->user_id === $actor->id, 404);
