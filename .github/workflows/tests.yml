@@ -3,11 +3,9 @@ name: Tests
 on:
   push:
     branches:
-      - master
-      - '*.x'
+      - main
   pull_request:
-  schedule:
-    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,13 +13,7 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: true
-      matrix:
-        php: [8.3, 8.4, 8.5]
-
-    name: PHP ${{ matrix.php }}
+    name: PHP 8.5 e SQLite
 
     steps:
       - name: Checkout code
@@ -32,7 +24,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: '8.5'
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
@@ -45,5 +37,8 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
+      - name: Audit Composer dependencies
+        run: composer audit --no-interaction
+
       - name: Execute tests
-        run: php artisan test
+        run: php artisan test --compact

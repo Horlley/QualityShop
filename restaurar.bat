@@ -2,6 +2,8 @@
 setlocal EnableExtensions
 chcp 65001 > nul
 cd /d "%~dp0"
+call "%~dp0ambiente.bat"
+if errorlevel 1 exit /b 1
 
 if not exist ".env" goto :not_configured
 if not exist "vendor\autoload.php" goto :not_configured
@@ -16,6 +18,8 @@ if errorlevel 2 exit /b 0
 :restore
 echo.
 echo [QualityShop] Restaurando o banco didatico...
+php artisan qualityshop:backup --no-interaction
+if errorlevel 1 exit /b 1
 php artisan migrate:fresh --seed --force --ansi
 if errorlevel 1 exit /b 1
 

@@ -2,6 +2,8 @@
 setlocal EnableExtensions EnableDelayedExpansion
 chcp 65001 > nul
 cd /d "%~dp0"
+call "%~dp0ambiente.bat"
+if errorlevel 1 exit /b 1
 set "FALHAS=0"
 
 echo.
@@ -18,8 +20,8 @@ if errorlevel 1 (
     set /a FALHAS+=1
 ) else (
     for /f "delims=" %%V in ('php -r "echo PHP_VERSION;"') do set "PHP_VERSION=%%V"
-    php -r "exit(PHP_VERSION_ID >= 80300 ? 0 : 1);"
-    if errorlevel 1 (echo [FALHA] PHP !PHP_VERSION!; esperado 8.3 ou superior.& set /a FALHAS+=1) else (echo [OK] PHP !PHP_VERSION!)
+    php -r "exit(PHP_VERSION_ID >= 80401 ? 0 : 1);"
+    if errorlevel 1 (echo [FALHA] PHP !PHP_VERSION!; esperado 8.4.1 ou superior.& set /a FALHAS+=1) else (echo [OK] PHP !PHP_VERSION!)
 )
 
 where composer > nul 2>&1

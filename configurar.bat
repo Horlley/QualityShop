@@ -5,17 +5,19 @@ cd /d "%~dp0"
 
 echo.
 echo [QualityShop] Preparando o ambiente local...
+call "%~dp0ambiente.bat"
+if errorlevel 1 exit /b 1
 
 where php > nul 2>&1
 if errorlevel 1 (
-    echo [ERRO] PHP nao foi encontrado. Instale o PHP 8.3 ou superior.
+    echo [ERRO] PHP nao foi encontrado. Instale o PHP 8.5.
     exit /b 1
 )
 
-php -r "exit(PHP_VERSION_ID >= 80300 ? 0 : 1);"
+php -r "exit(PHP_VERSION_ID >= 80401 ? 0 : 1);"
 if errorlevel 1 (
     for /f "delims=" %%V in ('php -r "echo PHP_VERSION;"') do set "PHP_VERSION=%%V"
-    echo [ERRO] PHP !PHP_VERSION! encontrado. O QualityShop exige PHP 8.3 ou superior.
+    echo [ERRO] PHP !PHP_VERSION! encontrado. O QualityShop exige PHP 8.4.1 ou superior.
     exit /b 1
 )
 
@@ -60,6 +62,8 @@ if not defined APP_KEY_VALUE (
 )
 
 echo [3/4] Preparando o banco didatico...
+php artisan qualityshop:backup --no-interaction
+if errorlevel 1 exit /b 1
 php artisan migrate --seed --force --ansi
 if errorlevel 1 exit /b 1
 
